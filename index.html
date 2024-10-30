@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Newton's Force Animation</title>
-    <style>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Newton's Force Animation</title>
+        <style>
         body {
             display: flex;
             flex-direction: column;
@@ -24,8 +25,6 @@
         }
 
         .ball {
-            width: 30px;
-            height: 30px;
             border-radius: 50%;
             background-color: red;
             position: absolute;
@@ -63,12 +62,12 @@
         <h1>Newton's Egaroo Formula! <strike>Gravity</strike></h1>
     </div>
     <div class="mass-info">
-        Mass of Ball 1: <input type="number" id="mass1" value="5" onchange="updateForce()"> kg 
-        Mass of Ball 2: <input type="number" id="mass2" value="5" onchange="updateForce()"> kg
+        Mass of Ball 1: <input type="number" id="mass1" value="5" onchange="updateProperties()"> kg 
+        Mass of Ball 2: <input type="number" id="mass2" value="5" onchange="updateProperties()"> kg
     </div>
     <div class="canvas-container">
-        <div id="ball1" class="ball" style="left: 50px;"></div>
-        <div id="ball2" class="ball ball2" style="left: 250px;"></div>
+        <div id="ball1" class="ball" style="left: 50px; width: 30px; height: 30px;"></div>
+        <div id="ball2" class="ball ball2" style="left: 250px; width: 30px; height: 30px;"></div>
     </div>
     <input type="range" class="slider" id="distanceSlider" min="20" max="300" value="200" oninput="updateDistance()">
     <div class="result">Distance: <span id="distance">20</span> cm</div>
@@ -103,6 +102,17 @@
             const G = 6.674 * Math.pow(10, -11); // gravitational constant in N(m/kg)^2
             const force = (G * m1 * m2) / Math.pow(distance / 100, 2); // convert distance from cm to m
             forceDisplay.textContent = force.toFixed(10); // display force with precision
+            
+            // Update ball sizes based on mass
+            updateBallSize(ball1, m1);
+            updateBallSize(ball2, m2);
+        }
+
+        function updateBallSize(ball, mass) {
+            // Calculate size based on mass (you can adjust the scale factor as needed)
+            const size = mass * 6; // Scale factor
+            ball.style.width = `${size}px`;
+            ball.style.height = `${size}px`;
         }
 
         // Initialize display
