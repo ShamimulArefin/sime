@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton's Force Animation</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 600px;
+            height: 300px;
+            border: 1px solid #333;
+            overflow: hidden;
+        }
+
+        .ball {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: red;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ball2 {
+            background-color: blue;
+        }
+
+        .slider {
+            margin-top: 20px;
+            width: 300px;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        .mass-info {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        input {
+            width: 50px;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="my-5">
+        <h1>Newton's Egaroo Formula! <strike>Gravity</strike></h1>
+    </div>
+    <div class="mass-info">
+        Mass of Ball 1: <input type="number" id="mass1" value="5" onchange="updateForce()"> kg 
+        Mass of Ball 2: <input type="number" id="mass2" value="5" onchange="updateForce()"> kg
+    </div>
+    <div class="canvas-container">
+        <div id="ball1" class="ball" style="left: 50px;"></div>
+        <div id="ball2" class="ball ball2" style="left: 250px;"></div>
+    </div>
+    <input type="range" class="slider" id="distanceSlider" min="20" max="300" value="200" oninput="updateDistance()">
+    <div class="result">Distance: <span id="distance">20</span> cm</div>
+    <div class="result">Force F: <span id="force">0</span> N</div>
+
+    <script>
+        const ball1 = document.getElementById('ball1');
+        const ball2 = document.getElementById('ball2');
+        const distanceSlider = document.getElementById('distanceSlider');
+        const distanceDisplay = document.getElementById('distance');
+        const forceDisplay = document.getElementById('force');
+        const mass1Input = document.getElementById('mass1');
+        const mass2Input = document.getElementById('mass2');
+
+        function updateDistance() {
+            const distance = distanceSlider.value;
+            distanceDisplay.textContent = distance;
+
+            // Update ball positions based on the distance
+            ball2.style.left = `${50 + parseInt(distance)}px`; // 50px margin from left for ball 1
+
+            // Recalculate force whenever the distance changes
+            updateForce();
+        }
+
+        function updateForce() {
+            const m1 = parseFloat(mass1Input.value); // kg
+            const m2 = parseFloat(mass2Input.value); // kg
+            const distance = distanceSlider.value;
+
+            // Calculate gravitational force F = G * (m1 * m2) / d^2
+            const G = 6.674 * Math.pow(10, -11); // gravitational constant in N(m/kg)^2
+            const force = (G * m1 * m2) / Math.pow(distance / 100, 2); // convert distance from cm to m
+            forceDisplay.textContent = force.toFixed(10); // display force with precision
+        }
+
+        // Initialize display
+        updateDistance();
+    </script>
+</body>
+</html>
